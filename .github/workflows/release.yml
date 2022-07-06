@@ -12,8 +12,15 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
+      - name: GTest compile and install
+        working-directory: ./utils/googletest
+        run: |
+          sudo cmake .
+          sudo cmake --build . --target install
+      - name: Boost install
       - run: sudo apt-get update && sudo apt-get install libboost-test-dev -y
-      - run: cmake . -DPATCH_VERSION=${{ github.run_number }} -DWITH_BOOST_TEST=ON
+      - name: Project build
+      - run: cmake . -DPATCH_VERSION=${{ github.run_number }} -DWITH_BOOST_TEST=ON -DWITH_GTEST=ON
       - run: cmake --build .
       - run: cmake --build . --target test
       - run: cmake --build . --target package
