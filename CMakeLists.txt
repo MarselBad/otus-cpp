@@ -5,7 +5,7 @@ set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
 project(helloworld VERSION ${PROJECT_VESRION})
 
-add_subdirectory(utils)
+include_directories(utils)
 
 option(WITH_BOOST_TEST "Whether to build Boost test" ON)
 option(WITH_GTEST "Whether to build Goolge test" ON)
