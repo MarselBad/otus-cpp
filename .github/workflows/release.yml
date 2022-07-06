@@ -13,10 +13,10 @@ jobs:
         with:
           submodules: true
       - name: GTest compile and install
+        working-directory: ./utils/googletest
         run: |
           sudo cmake .
           sudo cmake --build . --target install
-        working-directory: ./utils/googletest
       - name: Boost install
         run: sudo apt-get update && sudo apt-get install libboost-test-dev -y
       - name: Project build
