@@ -8,7 +8,7 @@ project(helloworld VERSION ${PROJECT_VESRION})
 include_directories(utils)
 
 option(WITH_BOOST_TEST "Whether to build Boost test" ON)
-option(WITH_GTEST "Whether to build Goolge test" ON)
+option(WITH_GTEST "Whether to build Google test" ON)
 
 configure_file(version.h.in version.h)
 
