@@ -5,7 +5,7 @@ set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
 project(helloworld VERSION ${PROJECT_VESRION})
 
-include_directories(utils)
+include_directories(../../utils)
 
 option(WITH_BOOST_TEST "Whether to build Boost test" ON)
 option(WITH_GTEST "Whether to build Google test" ON)
@@ -29,16 +29,19 @@ target_link_libraries(helloworld_cli PRIVATE
 )
 
 if(WITH_GTEST)
-    find_package(GTest REQUIRED)
+    set(GOOGLETEST_DIR ../../utils/googletest)
+    add_subdirectory(${GOOGLETEST_DIR} build)
+
     add_executable(test_version_gtest test_version_gtest.cpp)
 
-    target_include_directories(
-        test_version_gtest
-        PRIVATE ${GTEST_INCLUDE_DIRS}
+    target_include_directories(test_version_gtest PRIVATE
+        ${GOOGLETEST_DIR}/googletest/include
+        ${GOOGLETEST_DIR}/googlemock/include
     )
+
     target_link_libraries(
         test_version_gtest
-        ${GTEST_BOTH_LIBRARIES}
+        gtest gtest_main gmock gmock_main
         helloworld
     )
 endif()
@@ -53,14 +56,12 @@ if(WITH_BOOST_TEST)
         CXX_STANDARD_REQUIRED ON
     )
 
-    set_target_properties(
-        test_version PROPERTIES
+    set_target_properties(test_version PROPERTIES
         COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
         INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
     )
 
-    target_link_libraries(
-        test_version
+    target_link_libraries(test_version
         ${Boost_LIBRARIES}
         helloworld
     )
