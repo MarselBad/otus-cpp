@@ -33,7 +33,7 @@ int main(int argc, char const *argv[])
 
         // Filter by first byte and output
         // ip = filter(1)
-        // print_ip_pool(filter(ip_pool, {1,0,0,0}, 1));
+        print_ip_pool(filter(ip_pool, {1,0,0,0}, 1));
         // 1.231.69.33
         // 1.87.203.225
         // 1.70.44.170
@@ -42,7 +42,7 @@ int main(int argc, char const *argv[])
 
         // Filter by first and second bytes and output
         // ip = filter(46, 70)
-        // print_ip_pool(filter_positions(ip_pool, {46,70,-1,-1}));
+        print_ip_pool(filter_positions(ip_pool, {46,70,-1,-1}));
         // 46.70.225.39
         // 46.70.147.26
         // 46.70.113.73
@@ -50,7 +50,7 @@ int main(int argc, char const *argv[])
 
         // Filter by any byte and output
         // ip = filter_any(46)
-        // print_ip_pool(filter(ip_pool, {1,1,1,1}, 46));
+        print_ip_pool(filter(ip_pool, {1,1,1,1}, 46));
         // 186.204.34.46
         // 186.46.222.194
         // 185.46.87.231
