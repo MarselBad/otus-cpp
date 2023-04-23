@@ -1,0 +1,47 @@
+name: 'Build `hw03` release package'
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'hw03/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Project build
+        run: |
+          cd hw03
+          cmake . -DPATCH_VERSION=${{ github.run_number }}
+          cmake --build .
+          cmake --build . --target package
+      - name: Create Release
+        id: create_release
+        uses: ncipollo/release-action@v1
+        with:
+          name: hw03 release ${{ steps.get_version.outputs.VERSION }}
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag:  ${{ github.run_number }}
+          allowUpdates: true
+      - name: check files in repo
+        run: |
+          sudo apt-get install tree
+          tree -fi
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{github.workspace}}/hw03/hw03-0.0.${{ github.run_number }}-Linux.deb
+          asset_name: hw03-0.0.${{ github.run_number }}-Linux.deb
+          asset_content_type: application/vnd.debian.binary-package
