@@ -112,9 +112,9 @@ void print_ip_pool(const ipv4_vec& ip_pool){
 */
 void sort(ipv4_vec& ip_pool, bool ascending=true) {
     if (ascending)
-        std::sort(ip_pool.begin(), ip_pool.end(),std::less<>());
+        std::sort(ip_pool.begin(), ip_pool.end(), std::less<ipv4_t>());
     else
-        std::sort(ip_pool.begin(), ip_pool.end(),std::greater<>());
+        std::sort(ip_pool.begin(), ip_pool.end(), std::greater<ipv4_t>());
 }
 
 //! Filter given pool of IPv4 addresses by mask and filter values
