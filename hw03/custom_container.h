@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 
 template<typename T, typename Allocator = std::allocator<T> >
 class custom_list {
@@ -95,9 +96,15 @@ public:
 
     void pop_back() {
         auto del_node = tail_;
-        auto it = begin();
-        for (; it->next_ != tail_; ++it) {}
-        tail_ = *it;
+        if (del_node != head_) {
+            auto it = begin();
+            for (; it->next_ != tail_; ++it) {}
+            tail_ = *it;
+        }
+        else {
+            head_ = nullptr;
+            tail_ = nullptr;
+        }
         allocator_.destroy(del_node);
         allocator_.deallocate(del_node, 1);
     }
@@ -106,8 +113,8 @@ public:
         size_t n = 0;
         for (auto cur = head_; cur != nullptr; cur = cur->next_, ++n) {
             allocator_.destroy(cur);
+            allocator_.deallocate(cur, 1);
         }
-        allocator_.deallocate(head_, n);
         head_ = nullptr;
         tail_ = nullptr;
     }

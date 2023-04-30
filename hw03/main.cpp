@@ -1,5 +1,6 @@
 #include <iostream>
 #include <map>
+#include <vector>
 #include <stdexcept>
 
 #include "custom_allocator.h"
@@ -19,7 +20,7 @@ constexpr int fact(const int val) {
 
 
 int main(int, char const* [])
-{
+{       
     constexpr int n = 10;
 
     {
@@ -67,4 +68,37 @@ int main(int, char const* [])
         }
         std::cout << "\n";
     }
+
+#if 0
+    {
+        using Alloc = custom_allocator<int, 10>;
+        {
+            std::vector<int, Alloc> a{1};
+            std::vector<int, Alloc> b = a;
+            std::cout << a[0] << std::endl;
+            std::cout << b[0] << std::endl;
+            a[0] = 3;
+            a.push_back(4);
+            std::cout << a[0] << ' ' << a[1] << std::endl;
+            std::cout << b[0] << std::endl;
+        }
+
+        {
+            Alloc a;
+            auto p1 = a.allocate(1);
+            auto p2 = a.allocate(1);
+            a.deallocate(p1, 1);
+            auto p3 = a.allocate(1);
+            std::cout << p1 << std::endl;
+            std::cout << p2 << std::endl;
+            std::cout << p3 << std::endl;
+        }
+    }
+    {
+        custom_list<int> my_list;
+        my_list.push_back(1);
+        my_list.push_back(2);
+    }
+#endif
+
 }
