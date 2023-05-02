@@ -111,9 +111,12 @@ public:
 
     void clear() {
         size_t n = 0;
-        for (auto cur = head_; cur != nullptr; cur = cur->next_, ++n) {
+        for (auto cur = head_; cur != nullptr; ++n) {
+            auto next = cur->next_;
             allocator_.destroy(cur);
             allocator_.deallocate(cur, 1);
+            cur = next;
+
         }
         head_ = nullptr;
         tail_ = nullptr;

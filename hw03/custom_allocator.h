@@ -120,6 +120,6 @@ private:
 
 private:
     T* buffer_{nullptr};
-    bool used_[N];
+    bool used_[N] = {};
     size_t size_{0};
 };
